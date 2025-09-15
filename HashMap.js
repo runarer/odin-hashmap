@@ -11,7 +11,8 @@ class HashMapNode {
 
 class HashMap {
     static LOAD_FACTOR = 0.75;
-    capacity = 16;    
+    static START_CAPACITY = 16;
+    capacity = HashMap.START_CAPACITY;
     _grow_at = this.capacity * HashMap.LOAD_FACTOR;
     _size = 0;
 
@@ -148,6 +149,14 @@ class HashMap {
         
         return false;
     }
+
+    length() {
+        return this._size;
+    }
+
+    clear() {
+        this.buckets = new Array(HashMap.START_CAPACITY);
+    }
 }
 
 
@@ -185,5 +194,8 @@ console.log(test.remove('bread'));
 console.log("-------------------------")
 console.log(test.has('jacket'));
 console.log(test.has('dog'));
-console.log(test._size);
+console.log(test.length());
 
+console.log("\n----Testing clear()----");
+test.clear();
+console.log(test.buckets);
