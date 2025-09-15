@@ -97,11 +97,16 @@ class HashMap {
 
     get(key) {
         const bucket = this.hash(key);
+        if(this.buckets[bucket] === undefined) return null;
         
         let node = this.buckets[bucket];
-        while(node !== undefined) {
-
-        }
+        do {
+            if(node.key === key)
+                return node.value;
+            node = node.next;
+        }while(node !== undefined);
+        
+        return null;
     }
 }
 
@@ -123,6 +128,6 @@ const test = new HashMap();
  test.set('moon', 'silver')
 
 
-console.log(test.buckets);
-console.log(test._size);
-console.log(test._grow_at);
+console.log(test.get('moon'));
+console.log(test.get('dog'));
+console.log(test.get('Soup'));
