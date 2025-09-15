@@ -122,6 +122,32 @@ class HashMap {
         
         return false;
     }
+
+    remove(key) {
+        const bucket = this.hash(key);
+        if(this.buckets[bucket] === undefined) return false;
+        
+        // We might be removing, the first node in a list is a special case.
+        if(this.buckets[bucket].key === key) {
+            this.buckets[bucket] = this.buckets[bucket].next;
+            this._size--;
+            return true;
+        } 
+
+        let node = this.buckets[bucket].next;
+        let prevNode = this.buckets[bucket];
+        while(node !== undefined) {
+            if(node.key === key) {
+                // We are removing.
+                prevNode.next = node.next;
+                this._size--;
+                return true;
+            }
+            node = node.next;
+        }
+        
+        return false;
+    }
 }
 
 
@@ -139,15 +165,25 @@ const test = new HashMap();
  test.set('kite', 'pink');
  test.set('lion', 'golden');
 
- test.set('moon', 'silver')
+ test.set('moon', 'silver');
 
-
-console.log("----Testing get()----")
+console.log("----Testing get()----");
 console.log(test.get('moon'));
 console.log(test.get('dog'));
 console.log(test.get('Soup'));
 
-console.log("\n----Testing has()----")
+console.log("\n----Testing has()----");
 console.log(test.has('jacket'));
 console.log(test.has('dog'));
 console.log(test.has('bread'));
+
+console.log("\n----Testing remove()----");
+console.log(test._size);
+console.log(test.remove('jacket'));
+console.log(test.remove('dog'));
+console.log(test.remove('bread'));
+console.log("-------------------------")
+console.log(test.has('jacket'));
+console.log(test.has('dog'));
+console.log(test._size);
+
