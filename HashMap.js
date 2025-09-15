@@ -108,6 +108,20 @@ class HashMap {
         
         return null;
     }
+
+    has(key) {
+        const bucket = this.hash(key);
+        if(this.buckets[bucket] === undefined) return false;
+        
+        let node = this.buckets[bucket];
+        do {
+            if(node.key === key)
+                return true;
+            node = node.next;
+        }while(node !== undefined);
+        
+        return false;
+    }
 }
 
 
@@ -128,6 +142,12 @@ const test = new HashMap();
  test.set('moon', 'silver')
 
 
+console.log("----Testing get()----")
 console.log(test.get('moon'));
 console.log(test.get('dog'));
 console.log(test.get('Soup'));
+
+console.log("\n----Testing has()----")
+console.log(test.has('jacket'));
+console.log(test.has('dog'));
+console.log(test.has('bread'));
