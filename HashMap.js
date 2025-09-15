@@ -1,7 +1,7 @@
 class HashMapNode {
     key = undefined;
     value = undefined;
-    next = null;
+    next = undefined;
     
     constructor(key,value) {
         this.key = key;
@@ -42,7 +42,7 @@ class HashMap {
             if(node === undefined) continue;
 
             let currentNode = node;
-            let nextNode = null;
+            let nextNode = undefined;
             do {
                 nextNode = currentNode.next;
                 const newHashValue = this.hash(node.key);
@@ -50,7 +50,7 @@ class HashMap {
                 // No node present at new location
                 if(this.buckets[newHashValue] === undefined) {
                     this.buckets[newHashValue] = currentNode;
-                    this.buckets[newHashValue].next = null;
+                    this.buckets[newHashValue].next = undefined;
                 } 
                 // There is a collision, push at beginning.
                 else {
@@ -59,7 +59,7 @@ class HashMap {
                 }
 
                 currentNode = nextNode;
-            }while(nextNode !== null);
+            }while(nextNode !== undefined);
         }
     }
 
@@ -80,7 +80,7 @@ class HashMap {
                     lastNode.value = value;
                     updated = true;                    
                 }
-            } while(lastNode.next != null && !updated);
+            } while(lastNode.next != undefined && !updated);
 
             // Key not found, adding (key,value)
             if(!updated) {
@@ -92,6 +92,15 @@ class HashMap {
         // Do we need to grow?
         if(this._size >= this._grow_at) {
             this._grow();
+        }
+    }
+
+    get(key) {
+        const bucket = this.hash(key);
+        
+        let node = this.buckets[bucket];
+        while(node !== undefined) {
+
         }
     }
 }
