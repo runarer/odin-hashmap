@@ -12,7 +12,7 @@ class HashMapNode {
 class HashMap {
     static LOAD_FACTOR = 0.75;
     capacity = 16;    
-    _grow_at = Math.round(this.capacity * HashMap.LOAD_FACTOR);
+    _grow_at = this.capacity * HashMap.LOAD_FACTOR;
     _size = 0;
 
     constructor() {
@@ -31,7 +31,36 @@ class HashMap {
     }
 
     _grow() {
+        const old_capacity = this.capacity;
+        const old_buckets = this.buckets;
 
+        this.capacity = this.capacity * 2;        
+        this.buckets = new Array(this.capacity);
+        this._grow_at = this.capacity * HashMap.LOAD_FACTOR;
+
+        for (const node of old_buckets) {            
+            if(node === undefined) continue;
+
+            let currentNode = node;
+            let nextNode = null;
+            do {
+                nextNode = currentNode.next;
+                const newHashValue = this.hash(node.key);
+
+                // No node present at new location
+                if(this.buckets[newHashValue] === undefined) {
+                    this.buckets[newHashValue] = currentNode;
+                    this.buckets[newHashValue].next = null;
+                } 
+                // There is a collision, push at beginning.
+                else {
+                    currentNode.next = this.buckets[newHashValue];
+                    this.buckets[newHashValue] = currentNode;
+                }
+
+                currentNode = nextNode;
+            }while(nextNode !== null);
+        }
     }
 
     set(key,value) {
@@ -47,7 +76,7 @@ class HashMap {
             let updated = false;
             do {
                 // We are updating, not adding
-                if(lastNode.key = key) {
+                if(lastNode.key === key) {
                     lastNode.value = value;
                     updated = true;                    
                 }
@@ -81,6 +110,9 @@ const test = new HashMap();
  test.set('jacket', 'blue');
  test.set('kite', 'pink');
  test.set('lion', 'golden');
+
+ test.set('moon', 'silver')
+
 
 console.log(test.buckets);
 console.log(test._size);
