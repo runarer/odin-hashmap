@@ -191,6 +191,23 @@ class HashMap {
         }
         return allValues;
     }
+
+    entries() {
+        const allEntries = new Array(this.length());
+        let index = 0;
+
+        for(const node of this.buckets) {
+            if(node === undefined) continue;
+
+            let curNode = node;
+            while (curNode !== undefined) {
+                allEntries[index] = [curNode.key, curNode.value];
+                curNode = curNode.next;
+                index++;
+            }
+        }
+        return allEntries;
+    }
 }
 
 
@@ -235,6 +252,8 @@ console.log(test.keys())
 console.log("\n----Testing values()----");
 console.log(test.values())
 
+console.log("\n----Testing entries()----");
+console.log(test.entries())
 
 console.log("\n----Testing clear()----");
 test.clear();
