@@ -157,6 +157,40 @@ class HashMap {
     clear() {
         this.buckets = new Array(HashMap.START_CAPACITY);
     }
+
+    keys() {
+        const allKeys = new Array(this.length());
+        let index = 0;
+
+        for(const node of this.buckets) {
+            if(node === undefined) continue;
+
+            let curNode = node;
+            while (curNode !== undefined) {
+                allKeys[index] = curNode.key;
+                curNode = curNode.next;
+                index++;
+            }
+        }
+        return allKeys;
+    }
+
+    values() {
+        const allValues = new Array(this.length());
+        let index = 0;
+
+        for(const node of this.buckets) {
+            if(node === undefined) continue;
+
+            let curNode = node;
+            while (curNode !== undefined) {
+                allValues[index] = curNode.value;
+                curNode = curNode.next;
+                index++;
+            }
+        }
+        return allValues;
+    }
 }
 
 
@@ -173,7 +207,6 @@ const test = new HashMap();
  test.set('jacket', 'blue');
  test.set('kite', 'pink');
  test.set('lion', 'golden');
-
  test.set('moon', 'silver');
 
 console.log("----Testing get()----");
@@ -195,6 +228,13 @@ console.log("-------------------------")
 console.log(test.has('jacket'));
 console.log(test.has('dog'));
 console.log(test.length());
+
+console.log("\n----Testing keys()----");
+console.log(test.keys())
+
+console.log("\n----Testing values()----");
+console.log(test.values())
+
 
 console.log("\n----Testing clear()----");
 test.clear();
