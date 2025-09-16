@@ -1,4 +1,5 @@
 import HashMap from "./HashMap.js";
+import HashSet from "./HashSet.js";
 
 const test = new HashMap();
  test.set('apple', 'red');
@@ -14,6 +15,10 @@ const test = new HashMap();
  test.set('kite', 'pink');
  test.set('lion', 'golden');
  test.set('moon', 'silver');
+ test.set('Some','More');
+ test.set('Some','More');
+ test.set('Some1','More');
+ test.set('Some2','More');
 
 console.log("----Testing get()----");
 console.log(test.get('moon'));
@@ -47,3 +52,25 @@ console.log(test.entries())
 console.log("\n----Testing clear()----");
 test.clear();
 console.log(test.buckets);
+
+const hstest = new HashSet();
+hstest.set('Table');
+hstest.set('Glass');
+hstest.set('Glass');
+hstest.set('Wallpaper');
+hstest.set('Golfball');
+hstest.set('Fish');
+hstest.set('Apple');
+hstest.set('Laptop');
+hstest.set('CD-player');
+hstest.set('Tray');
+hstest.set('Ash');
+hstest.set('Goldfish');
+hstest.set('Guppy');
+hstest.set('Fish');
+hstest.set('Pencil');
+hstest.set('House');
+hstest.set('Car');
+hstest.set('Dog');
+console.log(hstest.buckets);
+console.log(hstest.length())
