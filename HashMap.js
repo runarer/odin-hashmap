@@ -156,6 +156,7 @@ class HashMap {
 
     clear() {
         this.buckets = new Array(HashMap.START_CAPACITY);
+        this._size = 0;
     }
 
     keys() {
