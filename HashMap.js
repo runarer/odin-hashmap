@@ -65,29 +65,28 @@ class HashMap {
     }
 
     set(key,value) {
-        const hashValue = this.hash(key);
+        const bucket = this.hash(key);
 
-        if(this.buckets[hashValue] === undefined) {
+        if(this.buckets[bucket] === undefined) {
             // We need a new node
-            this.buckets[hashValue] = new HashMapNode(key,value);
+            this.buckets[bucket] = new HashMapNode(key,value);
             this._size++;
         } else {
             // We have a collition
-            let lastNode = this.buckets[hashValue];
-            let updated = false;
-            do {
-                // We are updating, not adding
-                if(lastNode.key === key) {
-                    lastNode.value = value;
-                    updated = true;                    
+            let node = this.buckets[bucket];
+            let prevNode = null;            
+            while(node !== undefined) {
+                if(node.key === key) {
+                    node.value = value;
+                    return;
                 }
-            } while(lastNode.next != undefined && !updated);
+                prevNode = node;
+                node = node.next;                
+            }
 
             // Key not found, adding (key,value)
-            if(!updated) {
-                lastNode.next = new HashMapNode(key,value);
-                this._size++;
-            }
+            prevNode.next = new HashMapNode(key,value);
+            this._size++;            
         }
        
         // Do we need to grow?
